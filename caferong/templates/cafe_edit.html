@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+                <div class="collapse navbar-collapse navbar-right">
+                    <ul class="nav navbar-nav">
+                        <li><a href="/home/">Home</a></li>
+                        <li><a href="/map_infro/">About Coffee</a></li>
+                        <li class="active"><a href="/cafe_list/">Cafe List</a></li>
+                        <li><a href="/cafe_map/">Cafe Map</a></li>                        
+                    </ul>
+                </div>
+            </div><!--/.container-->
+        </nav><!--/nav-->
+	</header><!--/header-->
+
+
+    <div style="margin-left: 200px; margin-right: auto; display: inline-block; margin-top: 10px; margin-bottom: 10px">
+        <h1 style="color: black">New Cafe</h1>
+        <form method="POST" class="post-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="save btn btn-default">Save</button>
+        </form>
+    </div>
+
+{% endblock %}

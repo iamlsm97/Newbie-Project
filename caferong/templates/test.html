@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+                <div class="collapse navbar-collapse navbar-right">
+                    <ul class="nav navbar-nav">
+                        <li><a href="/home/">Home</a></li>
+                        <li><a href="/map_info/">About Cafe Map</a></li>
+                        <li class="active"><a href="/cafe_list/">Cafe List</a></li>
+                        <li><a href="/cafe_map/">Cafe Map</a></li>                        
+                    </ul>
+                </div>
+            </div><!--/.container-->
+        </nav><!--/nav-->
+	</header><!--/header-->
+
+    a map
+    <div style="height: 200px; width: 200px; border:1px solid black;">
+        <div id="map_dd" style="height: 180px; width: 180px"></div>
+    </div>
+
+    <script>
+        function myMap() {
+            var myCenter_dd = new google.maps.LatLng(36.363156, 127.356855);
+            var mapCanvas_dd = document.getElementById("map_dd");
+            var mapOptions_dd = {center: myCenter_dd, zoom: 18};
+
+            var map_dd = new google.maps.Map(mapCanvas_dd, mapOptions_dd);
+        }
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjQLc579GL-NfZYgYs8YVX2_Y8ubE-xHo&callback=myMap"></script>
+
+    {% endblock %}

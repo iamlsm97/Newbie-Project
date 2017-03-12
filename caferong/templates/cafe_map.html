@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+                <div class="collapse navbar-collapse navbar-right">
+                    <ul class="nav navbar-nav">
+                        <li><a href="/home/">Home</a></li>
+                        <li><a href="/map_info/">About Cafe Map</a></li>
+                        <li><a href="/cafe_list/">Cafe List</a></li>
+                        <li class="active"><a href="/cafe_map/">Cafe Map</a></li>                        
+                    </ul>
+                </div>
+            </div><!--/.container-->
+        </nav><!--/nav-->
+    </header><!--/header-->
+    
+    <div id="map" style="width:100%;height:500px"></div>
+
+    <script>
+        function myMap() {
+            var myCenter = new google.maps.LatLng(36.362269, 127.356188);
+            var mapCanvas = document.getElementById("map");
+            var mapOptions = {center: myCenter, zoom: 16};
+
+            var map = new google.maps.Map(mapCanvas, mapOptions);
+            
+            {% for cafe in cafes %}
+            var position_{{ cafe.Engname }} = new google.maps.LatLng({{ cafe.locLat }}, {{ cafe.locLng }});
+            {% if cafe.Roastery == 'R' %}
+            var marker_{{ cafe.Engname }} = new google.maps.Marker({position: position_{{ cafe.Engname }}, icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'});
+            {% else %}
+            var marker_{{ cafe.Engname }} = new google.maps.Marker({position: position_{{ cafe.Engname }}, icon: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png'});
+            {% endif %}
+            marker_{{ cafe.Engname }}.setMap(map);
+            var infowindow_{{ cafe.Engname }} = new google.maps.InfoWindow({content: "{{ cafe.name }}"});
+            infowindow_{{ cafe.Engname }}.open(map, marker_{{ cafe.Engname }});
+            
+            var infowindow2_{{ cafe.Engname }} = new google.maps.InfoWindow({content: "Name : {{ cafe.name }}<br>Time : {{ cafe.time }}<br>Roastery : {{ cafe.Roastery }} (R for yes, N for no)"});
+            google.maps.event.addListener(marker_{{ cafe.Engname }}, 'click', function(){
+                infowindow_{{ cafe.Engname }}.close()
+                map.setZoom(20);
+                map.setCenter(marker_{{ cafe.Engname }}.getPosition());
+                infowindow2_{{ cafe.Engname }}.open(map, marker_{{ cafe.Engname }});
+            });
+            {% endfor %}
+        }
+    </script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjQLc579GL-NfZYgYs8YVX2_Y8ubE-xHo&callback=myMap"></script>
+
+{% endblock %}
